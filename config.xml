@@ -1,0 +1,7 @@
+<tiser>
+<HOST value='' />
+<WEBROOT value='www' />
+<MAX_CLIENT_NUM value='10' />
+<MAX_REQST_SIZE value='4096' />
+<DEBUG value='True' />
+</tiser>
