@@ -1,0 +1,509 @@
+#!/usr/bin/env python
+import socket, threading, sys,mimetypes,os,urllib,time
+from datetime import datetime
+from xml.dom import minidom
+import stat
+
+########################## DEFAULT VALUES ############################
+HOST = ''
+WEBROOT = os.getcwd()
+PORT=7000
+MAX_CLIENT_NUM=5
+MAX_REQST_SIZE=1024
+DEBUG=False
+########################### METHODS ##################################
+
+##PRINT ERROR IN TERMINAL AND WRITE IT TO CRASH REPORT
+def handleError(err,desc):
+	print '\033[49;31m'+str(err)+"\033[0m"
+	writeError(desc+"\n"+str(err))
+
+##RETURN APPROPIATE HTTP STATUS
+def getHTTPStatus(code,isHeadersOnly):
+	desc=""
+	cnt_typ="text/html"
+
+	if code==400:
+		title="Bad Request"
+		desc="The data stream sent by the client was 'malformed' or did not "+\
+			"respect the HTTP protocol completely."
+
+	elif code==403:
+		title="The Resource you requested was Forbidden"
+		desc="You don't have permission to access the resource"        
+
+	elif code==404:
+		title="The page you requested was not found."
+		desc="You may have clicked an expired link or mistyped the address. "+\
+			"\Some web addresses are case sensitive."
+
+	elif code==500:
+		title="Internal Server Error"
+		desc="Server encountered an unexpected condition that prevented it "+\
+			"from fulfilling the request."
+
+	elif code==501:
+		title="Method Not Implemented"
+		desc="Server does not support the functionality required to fulfill"+\
+			" the request"
+
+	html="<html><head><title>"+str(code)+" - "+title+"</title><style>"\
+		"body{background-color:#FFFFFF;font:11px 'lucida grande',tahoma,verdana,arial,"\
+		"sans-serif;color:#333;direction:ltr;unicode-bidi:embed}h1{color:orange;"\
+		"text-align:center;}a{cursor: pointer;text-decoration:none;color:#000000;}"\
+		"a:hover{text-decoration:underline;}a:visited {color:#000000;}"\
+		"div{border: 1px solid #CCC;width: 555px;border-top-left-radius: 4px 4px;"\
+		"border-top-right-radius:4px 4px;border-bottom-right-radius: 4px 4px;"\
+		"border-bottom-left-radius: 4px 4px;margin-left: auto;margin-right: auto; "\
+		"margin-top:50px}h2{font-weight: bold;line-height: 20px;min-height: 20px;"\
+		"padding-bottom: 2px;vertical-align: bottom;padding-left: 22px;"\
+		"font-size: 16px;}ul{color: #000000;list-style-type: square;margin-left: 12px;"\
+		"}</style>"\
+		"</head>\n\r\n"\
+		"<body><div><h2>"+str(code)+" - "+title+"</h2>"\
+		"<p style='padding-left: 22px;'>"\
+		+desc+"</p>"\
+		"<ul><li><a href='/' >Return home</a></li><li><a onclick='history.back()' >"\
+		"Go back to the previous page</a></li></ul></div></body></html>"
+	res=printServerResponse(code,title,cnt_typ,html,isHeadersOnly)
+	return res
+
+##FORMAT THE MESSAGE WITH HEADERS
+def printServerResponse(st_code,desc,cnt_typ,content,isHeadersOnly):
+	cnt_len =len(content)
+	res = 'HTTP/1.1 ' + str(st_code) + ' '+ desc +'\r\n'
+	res += 'Date:' + datetime.now().strftime("%a %b %Y %H:%M:%S GMT")+'\r\n'
+	res += 'Server: Tiri Server'+'\r\n'
+	res += 'Last-Modified: Sun, 01 May 2011 01:40:02 GMT'+'\r\n'
+	res += 'Content-Type: '+cnt_typ+'\r\n'
+	res += 'Content-Length: '+ str(cnt_len) +'\n\r\n'
+	if DEBUG:print '\n[SENT]\n'+res
+	if isHeadersOnly: return res
+	res += content
+	return res
+
+##ADD ADDITIONAL HEADERS
+def addHeader(content,newHeader):
+	pos=content.find("\n\r\n")
+	res=""
+	if pos>-1:
+		res=content[0:pos]+"\n"+newHeader+content[pos+1:len(content)]
+	return res
+
+##REPLACE DUPLICATE SLASHES
+def formatPath(path):
+	path=path.replace("////","/")
+	path=path.replace("//","/")
+	path=path.replace("\\\\","/")
+	path=path.replace("\\","/")
+	return path
+
+##CHECK FILE EXISTS
+def isFileExists(filepath):
+	if (os.path.exists(WEBROOT+filepath)):
+		return True
+	else:
+		return False
+
+##READ PHP FILES
+def getPhp(filename,isSilent,isHeadersOnly):
+	#print "php "+WEBROOT+filename
+	res=""
+	p=""
+
+	if not isFileExists(filename):
+		if(isSilent):return "0"
+		else:return getHTTPStatus(404,isHeadersOnly)
+		
+	try:
+		st=os.stat(WEBROOT+filename)
+		isExcutable=bool(st.st_mode & stat.S_IXUSR)
+		isReadable=bool(st.st_mode & stat.S_IRUSR)
+
+		if isExcutable and isReadable:
+			p = os.popen('"'+WEBROOT+filename+'"').read()
+			res = printServerResponse('200','OK',getContentType(filename),p,isHeadersOnly)
+		else:
+			return getHTTPStatus(403,isHeadersOnly)
+	except:
+			handleError(sys.exc_info(),"[getFile]@filename="+filename)
+			res=getHTTPStatus(404,isHeadersOnly)
+	return res
+
+##READ A FILE IN BINARY
+def getFile(filename,isSilent,isHeadersOnly):
+
+	filename=formatPath(filename)
+	res=""
+	txt=""
+
+	if not isFileExists(filename):
+		if(isSilent):return "0"
+		else:return getHTTPStatus(404,isHeadersOnly)
+		
+	st=os.stat(WEBROOT+filename)
+	isReadable=bool(st.st_mode & stat.S_IRUSR)
+	if not isReadable:return getHTTPStatus(403,isHeadersOnly)
+	try:
+		file = open(WEBROOT+filename, 'rb')
+		txt = file.read()
+		res = printServerResponse('200','OK',getContentType(filename),txt,isHeadersOnly)
+	except IOError:
+		if(isSilent):return "0"
+		else:return getHTTPStatus(404,isHeadersOnly)
+	except:
+		#print 'Error in getFile:'
+		handleError(sys.exc_info(),"[getFile]@filename="+filename)
+	return res
+
+##TAKES SIZE IN BYTES AND RETURN APPROPRIATE MEASURES
+def getSize(size):
+	tmpSize="0 B"
+	kb=1024
+	mb=1024**2
+	gb=1024**3
+	tb=1024**4
+
+	if size>tb:
+		tmpSize=str(size/tb)+" TB"
+	elif size>gb:
+		tmpSize=str(size/gb)+" GB"
+	elif size>mb:
+		tmpSize=str(size/mb)+" MB"
+	elif size>kb:
+		tmpSize=str(size/kb)+" kB"
+	else:
+		tmpSize=str(size)+" B"
+	return tmpSize
+
+##LIST ALL FILES IN A DIRECTORY
+def listContent(filepath,isHeadersOnly):
+	res =""
+	html = '<html><head><title>Index of '+filepath+'</title></head>\n<style>'\
+		'h1 {\n'\
+		' border-bottom: 1px solid #c0c0c0;\n'\
+		' margin-bottom: 10px;\n'\
+		' padding-bottom: 10px;\n'\
+		'}\n'\
+		'td.detailsColumn {\n'\
+		' padding-left: 2em;\n'\
+		' text-align: right;\n'\
+		'}\n'\
+		'a.icon {\n'\
+		' padding-left: 1.5em;\n'\
+		' text-decoration: none;\n'\
+		'}\n'\
+		'a.icon:hover {\n'\
+		' text-decoration: underline;\n'\
+		'}\n'\
+		'a.file {\n'\
+		'background : url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAA'\
+		'AAQCAIAAACQkWg2AAAABnRSTlMAAAAAAABupgeRAAABHUlEQVR42o2RMW7DIBiF3498iH'\
+		'RJD5JKHurL+CRVBp+i2T16tTynF2gO0KSb5ZrBBl4HHDBuK/WXACH4eO9/CAAAbdvijzL'\
+		'GNE1TVZXfZuHg6XCAQESAZXbOKaXO57eiKG6ft9PrKQIkCQqFoIiQFBGlFIB5nvM8t9aO'\
+		'X2Nd18oDzjnPgCDpn/BH4zh2XZdlWVmWiUK4IgCBoFMUz9eP6zRN75cLgEQhcmTQIbl72'\
+		'O0f9865qLAAsURAAgKBJKEtgLXWvyjLuFsThCSstb8rBCaAQhDYWgIZ7myM+TUBjDHrHl'\
+		'ZcbMYYk34cN0YSLcgS+wL0fe9TXDMbY33fR2AYBvyQ8L0Gk8MwREBrTfKe4TpTzwhArXW'\
+		'i8HI84h/1DfwI5mhxJamFAAAAAElFTkSuQmCC ") left top no-repeat;\n'\
+		'}\n'\
+		'a.dir {\n'\
+		'background : url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAA'\
+		'AAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAd'\
+		'5JREFUeNqMU79rFUEQ/vbuodFEEkzAImBpkUabFP4ldpaJhZXYm/RiZWsv/hkWFglBUyT'\
+		'IgyAIIfgIRjHv3r39MePM7N3LcbxAFvZ2b2bn22/mm3XMjF+HL3YW7q28YSIw8mBKoBih'\
+		'hhgCsoORot9d3/ywg3YowMXwNde/PzGnk2vn6PitrT+/PGeNaecg4+qNY3D43vy16A5wD'\
+		'Dd4Aqg/ngmrjl/GoN0U5V1QquHQG3q+TPDVhVwyBffcmQGJmSVfyZk7R3SngI4JKfwDJ2'\
+		'+05zIg8gbiereTZRHhJ5KCMOwDFLjhoBTn2g0ghagfKeIYJDPFyibJVBtTREwq60SpYvh'\
+		'5++PpwatHsxSm9QRLSQpEVSd7/TYJUb49TX7gztpjjEffnoVw66+Ytovs14Yp7HaKmUXe'\
+		'X9rKUoMoLNW3srqI5fWn8JejrVkK0QcrkFLOgS39yoKUQe292WJ1guUHG8K2o8K00oO1B'\
+		'TvXoW4yasclUTgZYJY9aFNfAThX5CZRmczAV52oAPoupHhWRIUUAOoyUIlYVaAa/VbLby'\
+		'iZUiyFbjQFNwiZQSGl4IDy9sO5Wrty0QLKhdZPxmgGcDo8ejn+c/6eiK9poz15Kw7Dr/v'\
+		'N/z6W7q++091/AQYA5mZ8GYJ9K0AAAAAASUVORK5CYII= ") left top no-repeat;\n'\
+		'}\n'\
+		'a.up {\n'\
+		'background : url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAA'\
+		'AAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAm'\
+		'lJREFUeNpsU0toU0EUPfPysx/tTxuDH9SCWhUDooIbd7oRUUTMouqi2iIoCO6lceHWheg'\
+		'y4EJFinWjrlQUpVm0IIoFpVDEIthm0dpikpf3ZuZ6Z94nrXhhMjM3c8895977BBHB2Pzn'\
+		'K8WPtDgyWH5q77cPH8PpdXuhpQT4ifR9u5sfJb1bmw6VivahATDrxcRZ2njfoaMv+2j7m'\
+		'LDn93MPiNRMvGbL18L9IpF8h9/TN+EYkMffSiOXJ5+hkD+PdqcLpICWHOHc2CC+LEyA/K'\
+		'+cKQMnlQHJX8wqYG3MAJy88Wa4OLDvEqAEOpJd0LxHIMdHBziowSwVlF8D6QaicK01krw'\
+		'/JynwcKoEwZczewroTvZirlKJs5CqQ5CG8pb57FnJUA0LYCXMX5fibd+p8LWDDemcPZbz'\
+		'QyjvH+Ki1TlIciElA7ghwLKV4kRZstt2sANWRjYTAGzuP2hXZFpJ/GsxgGJ0ox1aoFWsD'\
+		'XyyxqCs26+ydmagFN/rRjymJ1898bzGzmQE0HCZpmk5A0RFIv8Pn0WYPsiu6t/Rsj6Pau'\
+		'VTwffTSzGAGZhUG2F06hEc9ibS7OPMNp6ErYFlKavo7MkhmTqCxZ/jwzGA9Hx82H2BZSw'\
+		'1NTN9Gx8ycHkajU/7M+jInsDC7DiaEmo1bNl1AMr9ASFgqVu9MCTIzoGUimXVAnnaN0Pd'\
+		'BBDCCYbEtMk6wkpQwIG0sn0PQIUF4GsTwLSIFKNqF6DVrQq+IWVrQDxAYQC/1SsYOI4pO'\
+		'xKZrfifiUSbDUisif7XlpGIPufXd/uvdvZm760M0no1FZcnrzUdjw7au3vu/BVgAFLXeu'\
+		'TxhTXVAAAAAElFTkSuQmCC ") left top no-repeat;\n'\
+		'}\n'\
+		'</style>\n'\
+		'<body><h1>Index of '+filepath+'</h1>\n'\
+		'<table><tr style="font-weight:bold"><td>Name</td><td>Type</td>'\
+		'<td class="detailsColumn">Size'\
+		'</td><td align="right">\n'\
+		'Date Modified</td></tr>\n'
+	#print html
+	dirList=os.listdir(formatPath(WEBROOT+filepath))
+	#print 'path='+WEBROOT+filepath
+	#print dirList
+	fList=""
+	dList=""
+	if ((filepath!='/')and(filepath!='\\')):
+		#print 'filepath:'+filepath
+		html+="<tr><td><a class='icon up' href='/..'>"+\
+			"[parent Directory]</a></td><td></td><td>"+\
+			"</td><td class='detailsColumn'></td></tr>"
+	for thisFile in dirList:
+		if os.path.isdir(WEBROOT+filepath+thisFile):
+			#print 'gotta dir'
+			dList+= "<tr><td><a class='icon dir' href='./"+filepath+\
+			thisFile+"/'>"+thisFile+"/</a></td><td>"+"dir"+"</td><td>"+\
+			"</td><td class='detailsColumn'>"+\
+			time.ctime(os.path.getmtime(WEBROOT+filepath+thisFile))+\
+			"</td></tr>"
+		elif os.path.isfile(WEBROOT+filepath+thisFile):
+			#print 'gotta file'
+			(shortname, extension) = os.path.splitext(thisFile)
+			fList+= "<tr><td><a class='icon file' href='./"+filepath+thisFile+"'>"+\
+			thisFile+"</a></td><td>"+extension+"</td><td class='detailsCol"\
+			"umn'>"+getSize(os.path.getsize(WEBROOT+filepath+thisFile))+\
+			"</td>"+"<td class='detailsColumn'>"+\
+			time.ctime(os.path.getmtime(WEBROOT+filepath+thisFile))+\
+			"</td></tr>"
+	html+=dList+fList
+	html+= "</table><h1></h1><font size=-1 color=#C0C0C0>tiSER [beta 1.0] (c)G.Rasika Perera</font></body></html>"
+	res = printServerResponse('200','OK','text/html',html,isHeadersOnly)
+	return res
+
+##SEARCH INDEX FILE IN A GIVEN PATH      
+def getIndexFile(filepath,isHeadersOnly):
+	res=""
+	if (filepath[-1]!='/'):filepath+='/'    
+	#print 'searching index file of '+filepath
+	aList=["index.php","index.html","index.htm"]
+	for i in range(len(aList)):
+		if aList[i].find(".php") > -1:
+			#print 'search '+filepath+aList[i]
+			res=getPhp(filepath+aList[i],1,isHeadersOnly)
+			#print res
+		else:
+			#print 'search '+filepath+aList[i]
+			res=getFile(filepath+aList[i],1,isHeadersOnly)
+			#print res
+                        
+		#if found something get out of this loop
+		if(res!="0"):
+			#print 'hey i found something'
+			break
+                
+	#when no index found
+	if(res=="0"):
+		#print 'no index found, gonna listing'
+		res=listContent(filepath,isHeadersOnly)
+	return res
+
+##READ CONFIGURATION FILE        
+def readConfigFile(this):
+	try:
+		global HOST
+		global WEBROOT	
+		global MAX_CLIENT_NUM
+		global MAX_REQST_SIZE
+		global DEBUG
+
+		xml= minidom.parse(this)
+
+		HOST=xml.getElementsByTagName("HOST")[0].getAttribute("value")
+		if HOST=='all' or HOST==None:HOST=''
+
+		WEBROOT=xml.getElementsByTagName("WEBROOT")[0].getAttribute("value")
+		if WEBROOT==None or WEBROOT=="":WEBROOT=os.getcwd()
+
+		TMP_MAX_CLIENT_NUM=xml.getElementsByTagName("MAX_CLIENT_NUM")[0].getAttribute("value")
+		if (TMP_MAX_CLIENT_NUM.isdigit()):MAX_CLIENT_NUM=int(TMP_MAX_CLIENT_NUM)
+
+		TMP_MAX_REQST_SIZE=xml.getElementsByTagName("MAX_REQST_SIZE")[0].getAttribute("value")
+		if (TMP_MAX_REQST_SIZE.isdigit()):MAX_REQST_SIZE=int(TMP_MAX_REQST_SIZE)
+
+		TMP_DEBUG=xml.getElementsByTagName("DEBUG")[0].getAttribute("value")
+		if bool(TMP_DEBUG):DEBUG=TMP_DEBUG
+
+	except IndexError:
+		pass	
+	except IOError:
+		print "\033[49;31m**COULDNT FIND '"+this+"' DEFAULT VALUES APPLIED**\033[0m"
+	except:
+		handleError(sys.exc_info(),"[readConfigFile]@this="+this)
+
+##WRITE CRASH REPORT
+def writeError(this):
+        txt = datetime.now().strftime("%a %b %Y %H:%M:%S GMT")+':'+str(this)
+        filename = "ErrorReport.txt"
+        #print "Writing to file: %s" % filename
+        file = open(filename, 'a')
+        file.write(txt+"\n")
+        file.close()
+
+##GET CONTENT TYPE OF A FILE        
+def getContentType(filename):
+	ctype=""
+	ctype,_=mimetypes.guess_type(filename)
+	if filename.find(".php") > -1:	#if it is a php
+		ctype='text/html'
+	elif ctype==None:	     	#if mimetype null
+		ctype='text/plain'
+	return ctype
+
+##TRY TO GET PORT FROM ARGS
+def getPort():
+	global PORT
+	tmp_port=PORT					#assign default port to tmp_port
+	try: 
+		if((len(sys.argv)>1)and(sys.argv[1].isdigit()==True)):      #if 2nd arg is digit 
+			tmp_port=int(sys.argv[1])			 #assign arg to tmp_port
+			
+	except:
+		handleError(sys.exc_info(),"[getPort]"+"\ntmp_port"+str(tmp_port))
+		pass
+	if (tmp_port<=65535 and tmp_port>-1):PORT=tmp_port
+	else: print '\033[49;31m'+"Port Should be 0-65535 Default Port "+str(PORT)+" applied\033[0m"
+
+def handleGetOrHeadRequest(request,isHeadersOnly): 
+	request=urllib.unquote(request)#remove any quotes such as %20
+	res=""
+	txt=""
+	if (isFileExists(request)):
+		#print 'file exist'
+		if os.path.isfile(WEBROOT+request):
+			if request.find(".php") > -1:
+				#print 'this is a php file'
+				res = getPhp(request,0,isHeadersOnly)
+			else:
+				#print 'this is a file'
+				res = getFile(request,0,isHeadersOnly)
+		else:
+			#print 'this is a path'
+			return getIndexFile(request,isHeadersOnly)
+	else:
+		#print 'file isnt exist'
+		res=getHTTPStatus(404,isHeadersOnly)
+	#print res
+	return res
+
+def handleClient(conn):
+	rqst_path=""
+	try:
+		isReceiving=1;beforeChar="\n"
+		reqst=conn.recv(MAX_REQST_SIZE)
+
+		#print 'reqst: '+reqst
+		List = reqst.split('\n')
+
+		#getting status line
+		rqst_method=List[0].split(' ')[0].upper()
+		rqst_path = formatPath(List[0].split(' ')[1])
+		rqst_protocol = List[0].split(' ')[2]
+		rqst_protocol_ver = float(rqst_protocol.split('/')[-1])
+
+		#if favicon not found just ignore without sending 404 and close connection
+		if ((rqst_path.find("favicon.ico")>-1) and not(isFileExists(rqst_path))):
+			conn.close();return
+		redirectList=["test"]
+	
+		if DEBUG:print '[REQUESTED] '+rqst_path
+
+		if rqst_method=="GET":#if it is a GET request
+			conn.send(handleGetOrHeadRequest(rqst_path,0))
+
+		elif rqst_method=="HEAD":#if it is a HEAD request
+			conn.send(handleGetOrHeadRequest(rqst_path,1))
+
+		else:#else send 501 not implemented
+			conn.send(getHTTPStatus(501,0))
+			
+
+	except IndexError :#splitting error
+		#if index error occured send 400 Bad request 
+		conn.send(getHTTPStatus(400,0))
+		
+	except ValueError: #protocol ver->float error
+		#if index error occured send 400 Bad request
+		conn.send(getHTTPStatus(400,0))
+		
+	except:
+		#print error and write to report
+		handleError(sys.exc_info(),"[handleClient]@rqst_path="+rqst_path+", client="+\
+			    str(conn.getpeername()))
+		conn.send(getHTTPStatus(500,0))
+		
+	conn.close()
+
+def printLogo():  
+	print '\n\033[2;49;36m'+'-'*53  
+	print "|\033[1;33m   ,d\033[1;34m  88P'888'Y88 ,e,  \033[1;32mdP\"8 888'Y88 888 88e  \033[1;33mb,   \033[2;36m|"
+	print "\033[2;36m|\033[1;33m ,d88\033[1;34m  P'  888  'Y  \"  \033[1;32mC8b Y 888 ,'Y 888 888D \033[1;33m88b, \033[2;36m|"
+	print "\033[2;36m|\033[1;33mC8888\033[1;34m      888     888  \033[1;32mY8b  888C8   888 88\"  \033[1;33m8888D\033[2;36m|"
+	print "\033[2;36m|\033[1;33m 'Y88\033[1;34m      888     888 \033[1;32mb Y8D 888 \",d 888 b,   \033[1;33m88P' \033[2;36m|"
+	print "\033[2;36m|\033[1;33m   'Y\033[1;34m      888     888 \033[1;32m8edP  888,d88 888 88b, \033[1;33mP'   \033[2;36m|" 
+	print "\033[2;36m|\033[5;1;31m"+" "*17+"-=tiSER beta 1.0=-\033[2;36m"+" "*16+"|\033[22;37m"
+	print '\033[2;49;36m'+'-'*53
+	print '\033[2;49;36mHOST:'+HOST+', PORT:'+str(PORT)+', WEBROOT:'+WEBROOT
+	print 'MAX_CLIENT_NUM:'+str(MAX_CLIENT_NUM)+', MAX_REQST_SIZE:'+str(MAX_REQST_SIZE)
+	print '\033[2;49;36m'+'-'*53+'\033[22;39m'
+
+def printListening():
+	spinner="|/-\\\\"
+	pos=0
+	cursor_invisible()
+	while 1:
+		sys.stdout.write("\r["+spinner[pos:pos+1]+'Listening...]')
+        	sys.stdout.flush()
+        	time.sleep(.15)
+        	pos+=1
+        	pos%=len(spinner)
+
+def cursor_visible():
+	try:
+		if os.uname()[0].lower()=="linux":
+			os.system("tput cvvis")
+	except:
+		pass
+
+def cursor_invisible():
+	try:
+		if os.uname()[0].lower()=="linux":
+			os.system("tput civis")
+	except:
+		pass
+
+def mainMethod():
+	readConfigFile("config.xml") #read config file
+	getPort() #get port
+	printLogo() #print server logo
+	try:
+		soc = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#sock obj IPv4 and TCP
+		soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)#set socket options
+		soc.bind((HOST, PORT));#bind port and host
+		soc.listen(MAX_CLIENT_NUM);#listen to the client
+		thread=threading.Thread(target = printListening)#define thread
+		thread.setDaemon(True);thread.start()#terminate thread on close;start thread
+	
+		while 1:
+			conn,addr = soc.accept();#accept client
+			print "Client Logged at "+str(addr)
+			thread=threading.Thread(target = handleClient, args = (conn,))#define thread
+			thread.setDaemon(True);thread.start()#terminate thread on close;start thread
+	except KeyboardInterrupt:
+		cursor_visible()
+		print '\n\033[1;49;31m-=Shutting down tiSER 1.0...=-\n\033[0m'
+		exit(0)
+	except socket.error:
+		cursor_visible()
+		handleError(sys.exc_info()[1],"[mainMethod]host="+HOST+", port="+str(PORT))
+	except:
+		cursor_visible()
+		handleError(sys.exc_info(),"[mainMethod]")
+
+############################# RUN MAIN METHOD ##################################
+mainMethod()
