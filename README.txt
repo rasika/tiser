@@ -70,12 +70,12 @@ After downloading tiSER.zip  start terminal.And goto the downloaded location.
 
 -DOCUMENTATION
 ==============
-  Note: the tiSER starts with basic settings when no regular expression syntax.
+  Note: the tiSER starts with basic settings when no arguments are given.
 
 -Keyboard Shortcuts
 press CTRL+C to terminate server.
 
--Regular Expression Syntax
+-Arguments Syntax
   Wserver <port> 
 
   <port> - Can give any port as web servers port.(port should be an integer).
@@ -97,7 +97,7 @@ tiSER uses Configuration file(config.xml) to load configurations.
 	<MAX_REQST_SIZE value='1024' />
 	</tiser>
 
--COPY RIGHT
+-COPYRIGHT
 ===========
 
   tiSER is FREE SOFTWARE and may be used and distributed freely.
@@ -105,10 +105,5 @@ tiSER uses Configuration file(config.xml) to load configurations.
   program, except for the cost of the distribution medium. The use of
   this software is AT YOUR OWN RISK.
 
--USER SUPPORT
-=============
-
-Home Page : http://www.tiser.limewebs.com/
-Telephone : +94-7-168-09060
 
 Copyright(c)2011,G. Rasika Perera.All rights reserved.
