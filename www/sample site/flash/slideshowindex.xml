@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"></head><body><main delay_time="6" menu_visible="yes" menu_axis="x" menu_x="10" menu_y="180" bannerbtn="yes" menu_spacer="5" bgcolor="0x2F2F2F" preloadercolor="0xBBBBBB"><slideshow>
+					<description_x>0</description_x>
+					<description_y>64</description_y>
+					<description_w>980</description_w>
+					<picture_path>../images/index_head/header-index-1.jpg</picture_path>
+					<description>
+					<!--[CDATA[     Sri Lanka Hotels]]-->
+					</description>
+					<web_address>http://www.lanka.com</web_address>
+					<description1>&nbsp;</description1>
+		</slideshow><slideshow>
+					<description_x>0</description_x>
+					<description_y>64</description_y>
+					<description_w>980</description_w>
+					<picture_path>../images/index_head/header-index-2.jpg</picture_path>
+					<description>
+					<!--[CDATA[     Sri Lanka Hotels]]-->
+					</description>
+					<web_address>http://www.lanka.com</web_address>
+					<description1>&nbsp;</description1>
+		</slideshow><slideshow>
+					<description_x>0</description_x>
+					<description_y>64</description_y>
+					<description_w>980</description_w>
+					<picture_path>../images/index_head/header-index-3.jpg</picture_path>
+					<description>
+					<!--[CDATA[     Sri Lanka Hotels]]-->
+					</description>
+					<web_address>http://www.lanka.com</web_address>
+					<description1>&nbsp;</description1>
+		</slideshow></main></body></html>

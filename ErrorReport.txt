@@ -1,0 +1,40 @@
+Tue May 2011 08:01:10 GMT:[mainMethod]
+(<class 'socket.error'>, error(13, 'Permission denied'), <traceback object at 0x93ebb44>)
+Tue May 2011 08:04:53 GMT:[mainMethod]host=, port=2
+[Errno 13] Permission denied
+Tue May 2011 08:08:09 GMT:[mainMethod]host=, port=2
+[Errno 13] Permission denied
+Tue May 2011 22:52:25 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59493)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9d81cac>)
+Tue May 2011 22:52:26 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59495)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9d81c34>)
+Tue May 2011 22:52:26 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59497)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9d81cd4>)
+Tue May 2011 22:52:33 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59499)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9d81c84>)
+Tue May 2011 22:53:46 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59501)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9f66cac>)
+Tue May 2011 22:53:46 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59503)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9f66bbc>)
+Tue May 2011 22:53:46 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59505)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9f66cd4>)
+Tue May 2011 22:53:47 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59507)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9f66c84>)
+Tue May 2011 22:53:48 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59509)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9f66c5c>)
+Tue May 2011 22:54:11 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59512)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9072cac>)
+Tue May 2011 22:54:12 GMT:[handleClient]@rqst_path=/, client=('127.0.0.1', 59514)
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x9072bbc>)
+Tue May 2011 22:55:50 GMT:[getFile]@filename=/index.html
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x8da5c5c>)
+Tue May 2011 22:55:51 GMT:[getFile]@filename=/index.html
+(<type 'exceptions.OSError'>, OSError(2, 'No such file or directory'), <traceback object at 0x8da5c5c>)
+Tue May 2011 23:04:00 GMT:[readConfigFile]@this=config.xml
+(<type 'exceptions.IndexError'>, IndexError('list index out of range',), <traceback object at 0x8c62c5c>)
+Tue May 2011 23:08:51 GMT:[readConfigFile]@this=config.xml
+(<class 'xml.parsers.expat.ExpatError'>, ExpatError('not well-formed (invalid token): line 6, column 13',), <traceback object at 0xa2c0cfc>)
+Tue May 2011 23:09:31 GMT:[readConfigFile]@this=config.xml
+(<class 'xml.parsers.expat.ExpatError'>, ExpatError('mismatched tag: line 7, column 2',), <traceback object at 0x85e7cfc>)
+Tue May 2011 23:10:05 GMT:[readConfigFile]@this=config.xml
+(<class 'xml.parsers.expat.ExpatError'>, ExpatError('mismatched tag: line 7, column 2',), <traceback object at 0x8ddbcfc>)

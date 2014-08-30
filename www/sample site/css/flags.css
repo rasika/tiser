@@ -1,0 +1,298 @@
+@charset "utf-8";
+/* CSS Document */
+#flag div #hov{
+	display:none;
+}
+#flag div:hover #hov{
+	display:block;
+	position:absolute;
+	float:right;
+	height:160px;
+	margin:0 0 0 -825px;
+}
+.box{
+	width:980px;
+	height:160px;
+	border: 1px solid #999;
+	text-align: center;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-webkit-box-shadow: #666 1px 1px 10px;
+	-moz-box-shadow: #666 1px 1px 10px;
+	box-shadow: #666 1px 1px 10px;
+	background: #ffffff;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffff), to(#ffffff));
+	background: -moz-linear-gradient(#ffffff, #ffffff);
+	background: linear-gradient(#ffffff, #ffffff);
+	-pie-background: linear-gradient(#ffffff, #ffffff);
+	behavior: url(../css/pie.htc);
+}
+#flag div img{
+	padding:0;
+	margin:0;
+}
+#flag div a{
+	padding:0;
+	margin:0;
+}
+.flagcontent{
+	position:relative;width:93px;margin:5px;float:left;padding-left:5px;
+	}
+.flagcontentleft{
+	width:16px;height:11px;float:left;
+}
+.flagcontentright{
+	float:left;text-align:left;height:11px;margin-left:4px;	
+}
+.sprite {
+   background: url(../images/flags.png) no-repeat top left;
+}
+.sprite-ad { background-position: 0 0; width: 18px; height: 12px;  } 
+.sprite-ae { background-position: -38px 0; width: 18px; height: 12px; } 
+.sprite-af { background-position: -76px 0; width: 18px; height: 12px; } 
+.sprite-ag { background-position: -114px 0; width: 18px; height: 12px; } 
+.sprite-ai { background-position: -152px 0; width: 18px; height: 12px; } 
+.sprite-al { background-position: -190px 0; width: 18px; height: 12px; } 
+.sprite-am { background-position: -228px 0; width: 18px; height: 12px; } 
+.sprite-an { background-position: -266px 0; width: 18px; height: 12px; } 
+.sprite-ao { background-position: -304px 0; width: 18px; height: 12px; } 
+.sprite-aq { background-position: -342px 0; width: 18px; height: 12px; } 
+.sprite-ar { background-position: -380px 0; width: 18px; height: 12px; } 
+.sprite-as { background-position: -418px 0; width: 18px; height: 12px; } 
+.sprite-at { background-position: -456px 0; width: 18px; height: 12px; } 
+.sprite-au { background-position: -494px 0; width: 18px; height: 12px; } 
+.sprite-aw { background-position: -532px 0; width: 18px; height: 12px; } 
+.sprite-ax { background-position: -570px 0; width: 18px; height: 12px; } 
+.sprite-az { background-position: -608px 0; width: 18px; height: 12px; } 
+.sprite-ba { background-position: -646px 0; width: 18px; height: 12px; } 
+.sprite-bb { background-position: -684px 0; width: 18px; height: 12px; } 
+.sprite-bd { background-position: -722px 0; width: 18px; height: 12px; } 
+.sprite-be { background-position: -760px 0; width: 18px; height: 12px; } 
+.sprite-bf { background-position: -798px 0; width: 18px; height: 12px; } 
+.sprite-bg { background-position: -836px 0; width: 18px; height: 12px; } 
+.sprite-bh { background-position: -874px 0; width: 18px; height: 12px; } 
+.sprite-bi { background-position: -912px 0; width: 18px; height: 12px; } 
+.sprite-bj { background-position: -950px 0; width: 18px; height: 12px; } 
+.sprite-bm { background-position: -988px 0; width: 18px; height: 12px; } 
+.sprite-bn { background-position: -1026px 0; width: 18px; height: 12px; } 
+.sprite-bo { background-position: -1064px 0; width: 18px; height: 12px; } 
+.sprite-br { background-position: -1102px 0; width: 18px; height: 12px; } 
+.sprite-bs { background-position: -1140px 0; width: 18px; height: 12px; } 
+.sprite-bt { background-position: -1178px 0; width: 18px; height: 12px; } 
+.sprite-bv { background-position: -1216px 0; width: 18px; height: 12px; } 
+.sprite-bw { background-position: -1254px 0; width: 18px; height: 12px; } 
+.sprite-by { background-position: -1292px 0; width: 18px; height: 12px; } 
+.sprite-bz { background-position: -1330px 0; width: 18px; height: 12px; } 
+.sprite-ca { background-position: -1368px 0; width: 18px; height: 12px; } 
+.sprite-cc { background-position: -1406px 0; width: 18px; height: 12px; } 
+.sprite-cd { background-position: -1444px 0; width: 18px; height: 12px; } 
+.sprite-cf { background-position: -1482px 0; width: 18px; height: 12px; } 
+.sprite-cg { background-position: -1520px 0; width: 18px; height: 12px; } 
+.sprite-ch { background-position: -1558px 0; width: 18px; height: 12px; } 
+.sprite-ci { background-position: -1596px 0; width: 18px; height: 12px; } 
+.sprite-ck { background-position: -1634px 0; width: 18px; height: 12px; } 
+.sprite-cl { background-position: -1672px 0; width: 18px; height: 12px; } 
+.sprite-cm { background-position: -1710px 0; width: 18px; height: 12px; } 
+.sprite-cn { background-position: -1748px 0; width: 18px; height: 12px; } 
+.sprite-co { background-position: -1786px 0; width: 18px; height: 12px; } 
+.sprite-cr { background-position: -1824px 0; width: 18px; height: 12px; } 
+.sprite-cs { background-position: -1862px 0; width: 18px; height: 12px; } 
+.sprite-cu { background-position: -1900px 0; width: 18px; height: 12px; } 
+.sprite-cv { background-position: -1938px 0; width: 18px; height: 12px; } 
+.sprite-cx { background-position: -1976px 0; width: 18px; height: 12px; } 
+.sprite-cy { background-position: 0 -32px; width: 18px; height: 12px; } 
+.sprite-cz { background-position: -38px -32px; width: 18px; height: 12px; } 
+.sprite-de { background-position: -76px -32px; width: 18px; height: 12px; } 
+.sprite-dj { background-position: -114px -32px; width: 18px; height: 12px; } 
+.sprite-dk { background-position: -152px -32px; width: 18px; height: 12px; } 
+.sprite-dm { background-position: -190px -32px; width: 18px; height: 12px; } 
+.sprite-do { background-position: -228px -32px; width: 18px; height: 12px; } 
+.sprite-dz { background-position: -266px -32px; width: 18px; height: 12px; } 
+.sprite-ec { background-position: -304px -32px; width: 18px; height: 12px; } 
+.sprite-ee { background-position: -342px -32px; width: 18px; height: 12px; } 
+.sprite-eg { background-position: -380px -32px; width: 18px; height: 12px; } 
+.sprite-eh { background-position: -418px -32px; width: 18px; height: 12px; } 
+.sprite-er { background-position: -456px -32px; width: 18px; height: 12px; } 
+.sprite-es { background-position: -494px -32px; width: 18px; height: 12px; } 
+.sprite-et { background-position: -532px -32px; width: 18px; height: 12px; } 
+.sprite-fi { background-position: -570px -32px; width: 18px; height: 12px; } 
+.sprite-fj { background-position: -608px -32px; width: 18px; height: 12px; } 
+.sprite-fk { background-position: -646px -32px; width: 18px; height: 12px; } 
+.sprite-fm { background-position: -684px -32px; width: 18px; height: 12px; } 
+.sprite-fo { background-position: -722px -32px; width: 18px; height: 12px; } 
+.sprite-fr { background-position: -760px -32px; width: 18px; height: 12px; } 
+.sprite-fx { background-position: -798px -32px; width: 18px; height: 12px; } 
+.sprite-ga { background-position: -836px -32px; width: 18px; height: 12px; } 
+.sprite-gb { background-position: -874px -32px; width: 18px; height: 12px; } 
+.sprite-gd { background-position: -912px -32px; width: 18px; height: 12px; } 
+.sprite-ge { background-position: -950px -32px; width: 18px; height: 12px; } 
+.sprite-gf { background-position: -988px -32px; width: 18px; height: 12px; } 
+.sprite-gg { background-position: -1026px -32px; width: 18px; height: 12px; } 
+.sprite-gh { background-position: -1064px -32px; width: 18px; height: 12px; } 
+.sprite-gi { background-position: -1102px -32px; width: 18px; height: 12px; } 
+.sprite-gl { background-position: -1140px -32px; width: 18px; height: 12px; } 
+.sprite-gm { background-position: -1178px -32px; width: 18px; height: 12px; } 
+.sprite-gn { background-position: -1216px -32px; width: 18px; height: 12px; } 
+.sprite-gp { background-position: -1254px -32px; width: 18px; height: 12px; } 
+.sprite-gq { background-position: -1292px -32px; width: 18px; height: 12px; } 
+.sprite-gr { background-position: -1330px -32px; width: 18px; height: 12px; } 
+.sprite-gs { background-position: -1368px -32px; width: 18px; height: 12px; } 
+.sprite-gt { background-position: -1406px -32px; width: 18px; height: 12px; } 
+.sprite-gu { background-position: -1444px -32px; width: 18px; height: 12px; } 
+.sprite-gw { background-position: -1482px -32px; width: 18px; height: 12px; } 
+.sprite-gy { background-position: -1520px -32px; width: 18px; height: 12px; } 
+.sprite-hk { background-position: -1558px -32px; width: 18px; height: 12px; } 
+.sprite-hm { background-position: -1596px -32px; width: 18px; height: 12px; } 
+.sprite-hn { background-position: -1634px -32px; width: 18px; height: 12px; } 
+.sprite-hr { background-position: -1672px -32px; width: 18px; height: 12px; } 
+.sprite-ht { background-position: -1710px -32px; width: 18px; height: 12px; } 
+.sprite-hu { background-position: -1748px -32px; width: 18px; height: 12px; } 
+.sprite-id { background-position: -1786px -32px; width: 18px; height: 12px; } 
+.sprite-ie { background-position: -1824px -32px; width: 18px; height: 12px; } 
+.sprite-il { background-position: -1862px -32px; width: 18px; height: 12px; } 
+.sprite-in { background-position: -1900px -32px; width: 18px; height: 12px; } 
+.sprite-io { background-position: -1938px -32px; width: 18px; height: 12px; } 
+.sprite-iq { background-position: -1976px -32px; width: 18px; height: 12px; } 
+.sprite-ir { background-position: 0 -64px; width: 18px; height: 12px; } 
+.sprite-is { background-position: -38px -64px; width: 18px; height: 12px; } 
+.sprite-it { background-position: -76px -64px; width: 18px; height: 12px; } 
+.sprite-je { background-position: -114px -64px; width: 18px; height: 12px; } 
+.sprite-jm { background-position: -152px -64px; width: 18px; height: 12px; } 
+.sprite-jo { background-position: -190px -64px; width: 18px; height: 12px; } 
+.sprite-jp { background-position: -228px -64px; width: 18px; height: 12px; } 
+.sprite-ke { background-position: -266px -64px; width: 18px; height: 12px; } 
+.sprite-kg { background-position: -304px -64px; width: 18px; height: 12px; } 
+.sprite-kh { background-position: -342px -64px; width: 18px; height: 12px; } 
+.sprite-ki { background-position: -380px -64px; width: 18px; height: 12px; } 
+.sprite-km { background-position: -418px -64px; width: 18px; height: 12px; } 
+.sprite-kn { background-position: -456px -64px; width: 18px; height: 12px; } 
+.sprite-kp { background-position: -494px -64px; width: 18px; height: 12px; } 
+.sprite-kr { background-position: -532px -64px; width: 18px; height: 12px; } 
+.sprite-kw { background-position: -570px -64px; width: 18px; height: 12px; } 
+.sprite-ky { background-position: -608px -64px; width: 18px; height: 12px; } 
+.sprite-kz { background-position: -646px -64px; width: 18px; height: 12px; } 
+.sprite-la { background-position: -684px -64px; width: 18px; height: 12px; } 
+.sprite-lb { background-position: -722px -64px; width: 18px; height: 12px; } 
+.sprite-lc { background-position: -760px -64px; width: 18px; height: 12px; } 
+.sprite-li { background-position: -798px -64px; width: 18px; height: 12px; } 
+.sprite-lk { background-position: -836px -64px; width: 18px; height: 12px; } 
+.sprite-lr { background-position: -874px -64px; width: 18px; height: 12px; } 
+.sprite-ls { background-position: -912px -64px; width: 18px; height: 12px; } 
+.sprite-lt { background-position: -950px -64px; width: 18px; height: 12px; } 
+.sprite-lu { background-position: -988px -64px; width: 18px; height: 12px; } 
+.sprite-lv { background-position: -1026px -64px; width: 18px; height: 12px; } 
+.sprite-ly { background-position: -1064px -64px; width: 18px; height: 12px; } 
+.sprite-ma { background-position: -1102px -64px; width: 18px; height: 12px; } 
+.sprite-mc { background-position: -1140px -64px; width: 18px; height: 12px; } 
+.sprite-md { background-position: -1178px -64px; width: 18px; height: 12px; } 
+.sprite-me { background-position: -1216px -64px; width: 18px; height: 12px; } 
+.sprite-mg { background-position: -1254px -64px; width: 18px; height: 12px; } 
+.sprite-mh { background-position: -1292px -64px; width: 18px; height: 12px; } 
+.sprite-mk { background-position: -1330px -64px; width: 18px; height: 12px; } 
+.sprite-ml { background-position: -1368px -64px; width: 18px; height: 12px; } 
+.sprite-mm { background-position: -1406px -64px; width: 18px; height: 12px; } 
+.sprite-mn { background-position: -1444px -64px; width: 18px; height: 12px; } 
+.sprite-mo { background-position: -1482px -64px; width: 18px; height: 12px; } 
+.sprite-mp { background-position: -1520px -64px; width: 18px; height: 12px; } 
+.sprite-mq { background-position: -1558px -64px; width: 18px; height: 12px; } 
+.sprite-mr { background-position: -1596px -64px; width: 18px; height: 12px; } 
+.sprite-ms { background-position: -1634px -64px; width: 18px; height: 12px; } 
+.sprite-mt { background-position: -1672px -64px; width: 18px; height: 12px; } 
+.sprite-mu { background-position: -1710px -64px; width: 18px; height: 12px; } 
+.sprite-mv { background-position: -1748px -64px; width: 18px; height: 12px; } 
+.sprite-mw { background-position: -1786px -64px; width: 18px; height: 12px; } 
+.sprite-mx { background-position: -1824px -64px; width: 18px; height: 12px; } 
+.sprite-my { background-position: -1862px -64px; width: 18px; height: 12px; } 
+.sprite-mz { background-position: -1900px -64px; width: 18px; height: 12px; } 
+.sprite-na { background-position: -1938px -64px; width: 18px; height: 12px; } 
+.sprite-nc { background-position: -1976px -64px; width: 18px; height: 12px; } 
+.sprite-ne { background-position: 0 -96px; width: 18px; height: 12px; } 
+.sprite-nf { background-position: -38px -96px; width: 18px; height: 12px; } 
+.sprite-ng { background-position: -76px -96px; width: 18px; height: 12px; } 
+.sprite-ni { background-position: -114px -96px; width: 18px; height: 12px; } 
+.sprite-nl { background-position: -152px -96px; width: 18px; height: 12px; } 
+.sprite-no { background-position: -190px -96px; width: 18px; height: 12px; } 
+.sprite-np { background-position: -228px -96px; width: 18px; height: 12px; } 
+.sprite-nr { background-position: -266px -96px; width: 18px; height: 12px; } 
+.sprite-nu { background-position: -304px -96px; width: 18px; height: 12px; } 
+.sprite-nz { background-position: -342px -96px; width: 18px; height: 12px; } 
+.sprite-om { background-position: -380px -96px; width: 18px; height: 12px; } 
+.sprite-pa { background-position: -418px -96px; width: 18px; height: 12px; } 
+.sprite-pe { background-position: -456px -96px; width: 18px; height: 12px; } 
+.sprite-pf { background-position: -494px -96px; width: 18px; height: 12px; } 
+.sprite-pg { background-position: -532px -96px; width: 18px; height: 12px; } 
+.sprite-ph { background-position: -570px -96px; width: 18px; height: 12px; } 
+.sprite-pk { background-position: -608px -96px; width: 18px; height: 12px; } 
+.sprite-pl { background-position: -646px -96px; width: 18px; height: 12px; } 
+.sprite-pm { background-position: -684px -96px; width: 18px; height: 12px; } 
+.sprite-pn { background-position: -722px -96px; width: 18px; height: 12px; } 
+.sprite-pr { background-position: -760px -96px; width: 18px; height: 12px; } 
+.sprite-ps { background-position: -798px -96px; width: 18px; height: 12px; } 
+.sprite-pt { background-position: -836px -96px; width: 18px; height: 12px; } 
+.sprite-pw { background-position: -874px -96px; width: 18px; height: 12px; } 
+.sprite-py { background-position: -912px -96px; width: 18px; height: 12px; } 
+.sprite-qa { background-position: -950px -96px; width: 18px; height: 12px; } 
+.sprite-re { background-position: -988px -96px; width: 18px; height: 12px; } 
+.sprite-ro { background-position: -1026px -96px; width: 18px; height: 12px; } 
+.sprite-rs { background-position: -1064px -96px; width: 18px; height: 12px; } 
+.sprite-rswoa { background-position: -1102px -96px; width: 18px; height: 12px; } 
+.sprite-ru { background-position: -1140px -96px; width: 18px; height: 12px; } 
+.sprite-rw { background-position: -1178px -96px; width: 18px; height: 12px; } 
+.sprite-sa { background-position: -1216px -96px; width: 18px; height: 12px; } 
+.sprite-sb { background-position: -1254px -96px; width: 18px; height: 12px; } 
+.sprite-sc { background-position: -1292px -96px; width: 18px; height: 12px; } 
+.sprite-sd { background-position: -1330px -96px; width: 18px; height: 12px; } 
+.sprite-se { background-position: -1368px -96px; width: 18px; height: 12px; } 
+.sprite-sg { background-position: -1406px -96px; width: 18px; height: 12px; } 
+.sprite-sh { background-position: -1444px -96px; width: 18px; height: 12px; } 
+.sprite-si { background-position: -1482px -96px; width: 18px; height: 12px; } 
+.sprite-sj { background-position: -1520px -96px; width: 18px; height: 12px; } 
+.sprite-sk { background-position: -1558px -96px; width: 18px; height: 12px; } 
+.sprite-sl { background-position: -1596px -96px; width: 18px; height: 12px; } 
+.sprite-sm { background-position: -1634px -96px; width: 18px; height: 12px; } 
+.sprite-sn { background-position: -1672px -96px; width: 18px; height: 12px; } 
+.sprite-so { background-position: -1710px -96px; width: 18px; height: 12px; } 
+.sprite-sr { background-position: -1748px -96px; width: 18px; height: 12px; } 
+.sprite-st { background-position: -1786px -96px; width: 18px; height: 12px; } 
+.sprite-sv { background-position: -1824px -96px; width: 18px; height: 12px; } 
+.sprite-sy { background-position: -1862px -96px; width: 18px; height: 12px; } 
+.sprite-sz { background-position: -1900px -96px; width: 18px; height: 12px; } 
+.sprite-tc { background-position: -1938px -96px; width: 18px; height: 12px; } 
+.sprite-td { background-position: -1976px -96px; width: 18px; height: 12px; } 
+.sprite-tf { background-position: 0 -128px; width: 18px; height: 12px; } 
+.sprite-tg { background-position: -38px -128px; width: 18px; height: 12px; } 
+.sprite-th { background-position: -76px -128px; width: 18px; height: 12px; } 
+.sprite-tj { background-position: -114px -128px; width: 18px; height: 12px; } 
+.sprite-tk { background-position: -152px -128px; width: 18px; height: 12px; } 
+.sprite-tl { background-position: -190px -128px; width: 18px; height: 12px; } 
+.sprite-tm { background-position: -228px -128px; width: 18px; height: 12px; } 
+.sprite-tn { background-position: -266px -128px; width: 18px; height: 12px; } 
+.sprite-to { background-position: -304px -128px; width: 18px; height: 12px; } 
+.sprite-tp { background-position: -342px -128px; width: 18px; height: 12px; } 
+.sprite-tr { background-position: -380px -128px; width: 18px; height: 12px; } 
+.sprite-tt { background-position: -418px -128px; width: 18px; height: 12px; } 
+.sprite-tv { background-position: -456px -128px; width: 18px; height: 12px; } 
+.sprite-tw { background-position: -494px -128px; width: 18px; height: 12px; } 
+.sprite-tz { background-position: -532px -128px; width: 18px; height: 12px; } 
+.sprite-ua { background-position: -570px -128px; width: 18px; height: 12px; } 
+.sprite-ug { background-position: -608px -128px; width: 18px; height: 12px; } 
+.sprite-um { background-position: -646px -128px; width: 18px; height: 12px; } 
+.sprite-us { background-position: -684px -128px; width: 18px; height: 12px; } 
+.sprite-uy { background-position: -722px -128px; width: 18px; height: 12px; } 
+.sprite-uz { background-position: -760px -128px; width: 18px; height: 12px; } 
+.sprite-va { background-position: -798px -128px; width: 18px; height: 12px; } 
+.sprite-vc { background-position: -836px -128px; width: 18px; height: 12px; } 
+.sprite-ve { background-position: -874px -128px; width: 18px; height: 12px; } 
+.sprite-vg { background-position: -912px -128px; width: 18px; height: 12px; } 
+.sprite-vi { background-position: -950px -128px; width: 18px; height: 12px; } 
+.sprite-vn { background-position: -988px -128px; width: 18px; height: 12px; } 
+.sprite-vu { background-position: -1026px -128px; width: 18px; height: 12px; } 
+.sprite-wf { background-position: -1064px -128px; width: 18px; height: 12px; } 
+.sprite-ws { background-position: -1102px -128px; width: 18px; height: 12px; } 
+.sprite-ye { background-position: -1140px -128px; width: 18px; height: 12px; } 
+.sprite-yt { background-position: -1178px -128px; width: 18px; height: 12px; } 
+.sprite-yu { background-position: -1216px -128px; width: 18px; height: 12px; } 
+.sprite-za { background-position: -1254px -128px; width: 18px; height: 12px; } 
+.sprite-zm { background-position: -1292px -128px; width: 18px; height: 12px; } 
+.sprite-zw { background-position: -1330px -128px; width: 18px; height: 12px; } 
