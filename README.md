@@ -3,6 +3,6 @@ tiser
 
 A Simple Python Webserver
 
-Wish List
-=====
+To Do
+====
 Extend this to loosely coupled modules
